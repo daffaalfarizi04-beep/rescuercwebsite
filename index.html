@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC Rescue Dashboard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #081426;
+    color: #e5edf8;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* LOGIN */
+#loginPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: radial-gradient(circle at top, #183c69, #081426 65%);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    background: #101f35;
+    border: 1px solid #29476c;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px #0005;
+}
+
+.logo {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.login-card h1 {
+    margin-bottom: 8px;
+}
+
+.muted {
+    color: #91a4bf;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.login-card label {
+    display: block;
+    margin: 20px 0 8px;
+    font-size: 13px;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #304967;
+    background: #091629;
+    color: white;
+    border-radius: 9px;
+    outline: none;
+}
+
+.primary {
+    width: 100%;
+    padding: 13px;
+    margin-top: 20px;
+    background: #2176e5;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-weight: bold;
+}
+
+.error {
+    color: #ff8f8f;
+    font-size: 13px;
+    margin-top: 12px;
+}
+
+/* LAYOUT */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 235px;
+    flex-shrink: 0;
+    background: #0b192c;
+    border-right: 1px solid #20334d;
+    padding: 20px 13px;
+}
+
+.brand {
+    padding: 5px 8px 22px;
+    border-bottom: 1px solid #20334d;
+}
+
+.brand h2 {
+    font-size: 19px;
+}
+
+.brand p {
+    color: #91a4bf;
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+.nav-title {
+    color: #7187a5;
+    font-size: 10px;
+    font-weight: bold;
+    margin: 22px 8px 10px;
+}
+
+.nav-btn {
+    width: 100%;
+    text-align: left;
+    padding: 12px;
+    color: #aebed3;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+    background: #17345a;
+    color: white;
+}
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: #0b192c;
+    border-bottom: 1px solid #20334d;
+}
+
+.topbar h2 {
+    font-size: 19px;
+}
+
+.topbar p {
+    font-size: 12px;
+    color: #91a4bf;
+    margin-top: 5px;
+}
+
+.content {
+    padding: 24px;
+    max-width: 1450px;
+    margin: auto;
+}
+
+.welcome {
+    margin-bottom: 22px;
+}
+
+.welcome h1 {
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #91a4bf;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #101f35;
+    border: 1px solid #243b59;
+    border-radius: 13px;
+    padding: 18px;
+    min-width: 0;
+}
+
+.card-label {
+    color: #94a8c3;
+    font-size: 12px;
+}
+
+.card-value {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 14px 0 8px;
+    overflow-wrap: anywhere;
+}
+
+.card-small {
+    color: #7187a5;
+    font-size: 11px;
+}
+
+.two-col {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.sensor {
+    margin-bottom: 18px;
+}
+
+.sensor-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.sensor-head span:last-child {
+    color: #72b3ff;
+}
+
+.bar {
+    height: 7px;
+    background: #24364e;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.bar div {
+    height: 100%;
+    background: #3288f5;
+    border-radius: 10px;
+}
+
+.camera {
+    min-height: 190px;
+    background: #071321;
+    border: 1px dashed #365171;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    color: #8299b8;
+}
+
+.camera-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+
+.camera strong {
+    color: #c9d7e9;
+    margin-bottom: 7px;
+}
+
+.action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 14px;
+}
+
+.action-btn {
+    border: 1px solid #345477;
+    background: #17345a;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 13px;
+    font-size: 12px;
+}
+
+.danger {
+    background: #762b36;
+}
+
+.control-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 65px);
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.control-grid button {
+    height: 55px;
+    background: #17345a;
+    border: 1px solid #36577c;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.control-grid .stop {
+    background: #762b36;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.info-box {
+    padding: 14px;
+    border-radius: 9px;
+    background: #152b47;
+    border: 1px solid #2c4b70;
+    color: #a9c9ef;
+    font-size: 12px;
+    line-height: 1.7;
+    margin-bottom: 17px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    min-width: 450px;
+}
+
+th, td {
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 1px solid #263b55;
+}
+
+th {
+    color: #91a4bf;
+    font-weight: normal;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 8px;
+    background: #173f37;
+    color: #7ee5b2;
+    border-radius: 6px;
+    font-size: 10px;
+}
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #263b55;
+    font-size: 13px;
+}
+
+footer {
+    color: #647c9c;
+    text-align: center;
+    font-size: 11px;
+    padding: 24px 10px;
+}
+
+@media(max-width: 1000px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media(max-width: 700px) {
+    .layout {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 13px;
+    }
+
+    .nav-title {
+        margin-top: 14px;
+    }
+
+    .nav-list {
+        display: flex;
+        gap: 5px;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+
+    .nav-btn {
+        width: auto;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .topbar {
+        padding: 15px;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    .grid {
+        gap: 9px;
+    }
+
+    .card {
+        padding: 13px;
+    }
+
+    .card-value {
+        font-size: 21px;
+    }
+
+    .two-col {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HALAMAN LOGIN -->
+<section id="loginPage">
+    <div class="login-card">
+        <div class="logo">🚑</div>
+        <h1>RC Rescue</h1>
+        <p class="muted">Rescue Vehicle Monitoring System</p>
+
+        <form id="loginForm">
+            <label for="username">Username</label>
+            <input id="username" type="text"
+                   placeholder="Masukkan username" required>
+
+            <label for="password">Password</label>
+            <input id="password" type="password"
+                   placeholder="Masukkan password" required>
+
+            <button class="primary" type="submit">
+                Login ke Dashboard →
+            </button>
+
+            <p id="loginError" class="error"></p>
+        </form>
+
+        <p class="muted" style="margin-top:20px">
+            RC Rescue Control Center
+        </p>
+    </div>
+</section>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="layout hidden">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>🚑 RC RESCUE</h2>
+            <p>Monitoring Control Center</p>
+        </div>
+
+        <div class="nav-title">MENU UTAMA</div>
+
+        <nav class="nav-list">
+            <button class="nav-btn active" data-page="overview">▦ Dashboard</button>
+            <button class="nav-btn" data-page="control">🎮 Kontrol RC</button>
+            <button class="nav-btn" data-page="sensors">◉ Monitoring Sensor</button>
+            <button class="nav-btn" data-page="detection">⌕ Deteksi Objek</button>
+            <button class="nav-btn" data-page="location">📍 Lokasi</button>
+            <button class="nav-btn" data-page="history">☷ Riwayat Aktivitas</button>
+            <button class="nav-btn" data-page="settings">⚙ Pengaturan</button>
+        </nav>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h2 id="pageTitle">Dashboard</h2>
+                <p>RC Rescue Vehicle System</p>
+            </div>
+
+            <div style="text-align:right">
+                <div style="color:#70e4a2;font-size:12px">
+                    ● Mode Simulasi
+                </div>
+                <button class="action-btn" onclick="logout()" style="margin-top:8px">
+                    Logout
+                </button>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <!-- DASHBOARD -->
+            <section id="page-overview" class="page active">
+                <div class="welcome">
+                    <h1>Selamat datang di RC Rescue</h1>
+                    <p>Panel pemantauan kendaraan pencarian untuk membantu operator memeriksa kondisi kendaraan dan sensor.</p>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-label">Status Kendaraan</div>
+                        <div class="card-value" id="vehicleStatus">Standby</div>
+                        <div class="card-small">Status simulasi</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-label">Baterai</div>
+                        <div class="card-value">87%</div>
+                        <div class="card-small">Nilai contoh</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-label">Jaringan</div>
+                        <div class="card-value">Online</div>
+                        <div class="card-small">Website aktif</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-label">Deteksi Tercatat</div>
+                        <div class="card-value" id="detectionCount">0</div>
+                        <div class="card-small">Catatan demo</div>
+                    </div>
+                </div>
+
+                <div class="two-col">
+                    <div class="card">
+                        <h3 class="section-title">Monitoring Sensor</h3>
+
+                        <div class="sensor">
+                            <div class="sensor-head">
+                                <span>Ultrasonic</span>
+                                <span id="ultraText">120 cm</span>
+                            </div>
+                            <div class="bar">
+                                <div id="ultraBar" style="width:60%"></div>
+                            </div>
+                        </div>
+
+                        <div class="sensor">
+                            <div class="sensor-head">
+                                <span>Radar mmWave</span>
+                                <span>Demo</span>
+                            </div>
+                            <div class="bar"><div style="width:75%"></div></div>
+                        </div>
+
+                        <div class="sensor">
+                            <div class="sensor-head">
+                                <span>Gas MQ-11</span>
+                                <span id="gasText">Aman (demo)</span>
+                            </div>
+                            <div class="bar">
+                                <div id="gasBar" style="width:20%"></div>
+                            </div>
+                        </div>
+
+                        <div class="action-row">
+                            <button class="action-btn" onclick="goPage('sensors')">
+                                Lihat semua sensor →
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="section-title">Kamera Kendaraan</h3>
+                        <div class="camera">
+                            <div class="camera-icon">📷</div>
+                            <strong>Feed kamera belum terhubung</strong>
+                            <span class="muted">Kamera asli akan tersedia setelah hardware dan koneksi dibuat.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="section-title">Aktivitas Terbaru</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>Aktivitas</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentTable">
+                                <tr><td colspan="3">Belum ada aktivitas.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- KONTROL RC -->
+            <section id="page-control" class="page">
+                <div class="welcome">
+                    <h1>Kontrol RC</h1>
+                    <p>Kontrol kendaraan dalam mode simulasi.</p>
+                </div>
+
+                <div class="info-box">
+                    ⚠️ Tombol arah hanya mengubah status demo. Kendaraan asli belum terhubung.
+                </div>
+
+                <div class="two-col">
+                    <div class="card">
+                        <h3 class="section-title">Kontrol Arah</h3>
+
+                        <div class="control-grid">
+                            <span></span>
+                            <button onclick="moveRC('Maju')">↑</button>
+                            <span></span>
+
+                            <button onclick="moveRC('Kiri')">←</button>
+                            <button class="stop" onclick="moveRC('Berhenti')">■</button>
+                            <button onclick="moveRC('Kanan')">→</button>
+
+                            <span></span>
+                            <button onclick="moveRC('Mundur')">↓</button>
+                            <span></span>
+                        </div>
+
+                        <p class="muted" style="text-align:center">
+                            Status perintah:
+                            <strong id="moveStatus" style="color:white">Berhenti</strong>
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="section-title">Kondisi Kendaraan</h3>
+                        <div class="setting-row">
+                            <span>Status motor</span>
+                            <strong id="motorStatus">Standby</strong>
+                        </div>
+                        <div class="setting-row">
+                            <span>Kecepatan demo</span>
+                            <strong id="speedValue">0%</strong>
+                        </div>
+
+                        <div class="action-row">
+                            <button class="action-btn" onclick="setSpeed(25)">25%</button>
+                            <button class="action-btn" onclick="setSpeed(50)">50%</button>
+                            <button class="action-btn" onclick="setSpeed(75)">75%</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MONITORING SENSOR -->
+            <section id="page-sensors" class="page">
+                <div class="welcome">
+                    <h1>Monitoring Sensor</h1>
+                    <p>Pantau informasi sensor kendaraan.</p>
+                </div>
+
+                <div class="info-box">
+                    Data berikut adalah nilai simulasi, bukan pembacaan sensor sungguhan.
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-label">Ultrasonic</div>
+                        <div class="card-value" id="ultraDetail">120 cm</div>
+                        <div class="card-small">Contoh jarak objek</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-label">Radar mmWave</div>
+                        <div class="card-value">Standby</div>
+                        <div class="card-small">Belum terhubung</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-label">Gas MQ-11</div>
+                        <div class="card-value" id="gasDetail">Aman</div>
+                        <div class="card-small">Status contoh</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-label">Kamera</div>
+                        <div class="card-value">Offline</div>
+                        <div class="card-small">Belum terhubung</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="section-title">Pemeriksaan Sensor Demo</h3>
+                    <button class="action-btn" onclick="refreshSensors()">
+                        Perbarui Nilai Contoh
+                    </button>
+                    <p id="sensorUpdated" class="muted" style="margin-top:12px">
+                        Belum diperbarui.
+                    </p>
+                </div>
+            </section>
+
+            <!-- DETEKSI OBJEK -->
+            <section id="page-detection" class="page">
+                <div class="welcome">
+                    <h1>Deteksi Objek</h1>
+                    <p>Catat temuan operator selama simulasi pencarian.</p>
+                </div>
+
+                <div class="info-box">
+                    Catatan ini bukan deteksi otomatis korban. Temuan perlu diverifikasi oleh operator.
+                </div>
+
+                <div class="card" style="margin-bottom:18px">
+                    <h3 class="section-title">Tambah Catatan Temuan</h3>
+
+                    <div class="setting-row">
+                        <label for="objectType">Jenis temuan</label>
+                        <select id="objectType" style="padding:9px;background:#091629;color:white;border:1px solid #304967;border-radius:7px">
+                            <option>Objek tidak dikenal</option>
+                            <option>Indikasi pergerakan</option>
+                            <option>Rintangan</option>
+                            <option>Area perlu diperiksa</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-row">
+                        <label for="objectLocation">Keterangan lokasi</label>
+                        <input id="objectLocation" type="text" placeholder="Contoh: Area A">
+                    </div>
+
+                    <div class="action-row">
+                        <button class="action-btn" onclick="addDetection()">
+                            Simpan Temuan
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="section-title">Daftar Temuan</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>Jenis</th>
+                                    <th>Lokasi</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detectionTable">
+                                <tr><td colspan="4">Belum ada catatan.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LOKASI -->
+            <section id="page-location" class="page">
+                <div class="welcome">
+                    <h1>Lokasi Kendaraan</h1>
+                    <p>Halaman ini disiapkan untuk integrasi GPS.</p>
+                </div>
+
+                <div class="info-box">
+                    GPS belum terhubung. Koordinat asli memerlukan perangkat dan sumber lokasi.
+                </div>
+
+                <div class="card">
+                    <div class="camera">
+                        <div class="camera-icon">📍</div>
+                        <strong>GPS belum terhubung</strong>
+                        <span class="muted">Lokasi kendaraan akan tersedia setelah perangkat GPS diintegrasikan.</span>
+                    </div>
+
+                    <div class="setting-row">
+                        <span>Latitude</span><strong>Belum tersedia</strong>
+                    </div>
+                    <div class="setting-row">
+                        <span>Longitude</span><strong>Belum tersedia</strong>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIWAYAT -->
+            <section id="page-history" class="page">
+                <div class="welcome">
+                    <h1>Riwayat Aktivitas</h1>
+                    <p>Daftar aktivitas selama dashboard digunakan.</p>
+                </div>
+
+                <div class="card">
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>Aktivitas</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTable">
+                                <tr><td colspan="3">Belum ada aktivitas.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="action-row">
+                        <button class="action-btn danger" onclick="clearHistory()">
+                            Hapus Riwayat Demo
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PENGATURAN -->
+            <section id="page-settings" class="page">
+                <div class="welcome">
+                    <h1>Pengaturan</h1>
+                    <p>Informasi sistem RC Rescue.</p>
+                </div>
+
+                <div class="card">
+                    <div class="setting-row">
+                        <span>Nama sistem</span><strong>RC Rescue</strong>
+                    </div>
+                    <div class="setting-row">
+                        <span>Mode sistem</span><strong>Simulasi</strong>
+                    </div>
+                    <div class="setting-row">
+                        <span>Sensor</span><strong>Belum terhubung</strong>
+                    </div>
+                    <div class="setting-row">
+                        <span>Kamera</span><strong>Belum terhubung</strong>
+                    </div>
+                    <div class="setting-row">
+                        <span>Login</span><strong>Demo browser</strong>
+                    </div>
+
+                    <div class="info-box" style="margin-top:18px">
+                        Login ini belum aman untuk data sungguhan karena username dan password tersimpan di kode website. Sistem login sungguhan memerlukan backend.
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                RC Rescue · Prototype Dashboard · Belum terhubung ke hardware
+            </footer>
+
+        </div>
+    </main>
+</div>
+
+<script>
+/* LOGIN */
+const USERNAME = "ns123";
+const PASSWORD = "ns123";
+
+const loginPage = document.getElementById("loginPage");
+const dashboard = document.getElementById("dashboard");
+const loginForm = document.getElementById("loginForm");
+
+loginForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    const error = document.getElementById("loginError");
+
+    if (username === USERNAME && password === PASSWORD) {
+        error.textContent = "";
+        loginPage.classList.add("hidden");
+        dashboard.classList.remove("hidden");
+        addActivity("Login berhasil");
+    } else {
+        error.textContent = "Username atau password salah!";
+    }
+});
+
+function logout() {
+    dashboard.classList.add("hidden");
+    loginPage.classList.remove("hidden");
+    loginForm.reset();
+    document.getElementById("loginError").textContent = "";
+}
+
+/* NAVIGASI */
+const titles = {
+    overview: "Dashboard",
+    control: "Kontrol RC",
+    sensors: "Monitoring Sensor",
+    detection: "Deteksi Objek",
+    location: "Lokasi",
+    history: "Riwayat Aktivitas",
+    settings: "Pengaturan"
+};
+
+document.querySelectorAll(".nav-btn").forEach(function(button) {
+    button.addEventListener("click", function() {
+        goPage(button.dataset.page);
+    });
+});
+
+function goPage(page) {
+    document.querySelectorAll(".page").forEach(function(section) {
+        section.classList.remove("active");
+    });
+
+    document.getElementById("page-" + page).classList.add("active");
+
+    document.querySelectorAll(".nav-btn").forEach(function(button) {
+        button.classList.toggle("active", button.dataset.page === page);
+    });
+
+    document.getElementById("pageTitle").textContent = titles[page];
+}
+
+/* RIWAYAT AKTIVITAS */
+let activities = [];
+let detections = [];
+let speed = 0;
+
+function timeNow() {
+    return new Date().toLocaleString("id-ID");
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, function(char) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[char];
+    });
+}
+
+function addActivity(message) {
+    activities.unshift({
+        time: timeNow(),
+        message: message
+    });
+
+    renderActivities();
+}
+
+function renderActivities() {
+    const historyTable = document.getElementById("historyTable");
+    const recentTable = document.getElementById("recentTable");
+
+    if (activities.length === 0) {
+        historyTable.innerHTML =
+            '<tr><td colspan="3">Belum ada aktivitas.</td></tr>';
+
+        recentTable.innerHTML =
+            '<tr><td colspan="3">Belum ada aktivitas.</td></tr>';
+
+        return;
+    }
+
+    historyTable.innerHTML = activities.map(function(item) {
+        return `<tr>
+            <td>${escapeHTML(item.time)}</td>
+            <td>${escapeHTML(item.message)}</td>
+            <td><span class="badge">Demo</span></td>
+        </tr>`;
+    }).join("");
+
+    recentTable.innerHTML = activities.slice(0, 4).map(function(item) {
+        return `<tr>
+            <td>${escapeHTML(item.time)}</td>
+            <td>${escapeHTML(item.message)}</td>
+            <td><span class="badge">Demo</span></td>
+        </tr>`;
+    }).join("");
+}
+
+function clearHistory() {
+    activities = [];
+    renderActivities();
+}
+
+/* KONTROL RC SIMULASI */
+function moveRC(direction) {
+    document.getElementById("moveStatus").textContent = direction;
+
+    document.getElementById("motorStatus").textContent =
+        direction === "Berhenti" ? "Standby" : "Simulasi bergerak";
+
+    document.getElementById("vehicleStatus").textContent =
+        direction === "Berhenti" ? "Standby" : direction;
+
+    if (direction === "Berhenti") {
+        speed = 0;
+    } else if (speed === 0) {
+        speed = 25;
+    }
+
+    document.getElementById("speedValue").textContent = speed + "%";
+
+    addActivity("Perintah kontrol: " + direction);
+}
+
+function setSpeed(value) {
+    speed = value;
+
+    document.getElementById("speedValue").textContent = speed + "%";
+
+    addActivity("Kecepatan demo diatur ke " + value + "%");
+}
+
+/* SENSOR SIMULASI */
+function refreshSensors() {
+    const distance = Math.floor(Math.random() * 180) + 20;
+    const gas = Math.floor(Math.random() * 100);
+
+    document.getElementById("ultraText").textContent = distance + " cm";
+    document.getElementById("ultraDetail").textContent = distance + " cm";
+
+    document.getElementById("ultraBar").style.width =
+        Math.min(100, distance / 2) + "%";
+
+    document.getElementById("gasText").textContent =
+        gas > 70 ? "Periksa (demo)" : "Aman (demo)";
+
+    document.getElementById("gasDetail").textContent =
+        gas > 70 ? "Periksa" : "Aman";
+
+    document.getElementById("gasBar").style.width = gas + "%";
+
+    document.getElementById("sensorUpdated").textContent =
+        "Nilai contoh diperbarui: " + timeNow();
+
+    addActivity("Nilai sensor demo diperbarui");
+}
+
+/* CATATAN DETEKSI */
+function addDetection() {
+    const type = document.getElementById("objectType").value;
+
+    const location =
+        document.getElementById("objectLocation").value.trim() ||
+        "Lokasi belum ditentukan";
+
+    detections.unshift({
+        time: timeNow(),
+        type: type,
+        location: location
+    });
+
+    document.getElementById("detectionTable").innerHTML =
+        detections.map(function(item) {
+            return `<tr>
+                <td>${escapeHTML(item.time)}</td>
+                <td>${escapeHTML(item.type)}</td>
+                <td>${escapeHTML(item.location)}</td>
+                <td><span class="badge">Perlu verifikasi</span></td>
+            </tr>`;
+        }).join("");
+
+    document.getElementById("detectionCount").textContent =
+        detections.length;
+
+    document.getElementById("objectLocation").value = "";
+
+    addActivity("Catatan temuan ditambahkan: " + type);
+}
+
+renderActivities();
+</script>
+
+</body>
+</html>
